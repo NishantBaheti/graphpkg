@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>graphpkg package &mdash; graphpkg 0.0.1 documentation</title>
+  <title>graphpkg package &mdash; graphpkg 0.0.2 documentation</title>
   
 
   
@@ -167,24 +167,82 @@
 <div><p>Devloped By : Nishant Baheti</p>
 </div></blockquote>
 <hr class="docutils" />
-<blockquote>
-<div><ul class="simple">
-<li><p>Work in progress</p></li>
-</ul>
-</div></blockquote>
-<hr class="docutils" />
 <dl class="py class">
-<dt id="graphpkg.live_graph.LiveTrend">
-<em class="property">class </em><code class="sig-prename descclassname">graphpkg.live_graph.</code><code class="sig-name descname">LiveTrend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func_for_data</span><span class="p">:</span> <span class="n">callable</span></em>, <em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">xlabel</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ylabel</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">window</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveTrend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveTrend" title="Permalink to this definition">¶</a></dt>
+<dt id="graphpkg.live_graph.LiveScatter">
+<em class="property">class </em><code class="sig-prename descclassname">graphpkg.live_graph.</code><code class="sig-name descname">LiveScatter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">func_for_data</span><span class="p">:</span> <span class="n">callable</span></em>, <em class="sig-param"><span class="n">func_args</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Iterable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xlabel</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'x-axis'</span></em>, <em class="sig-param"><span class="n">ylabel</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'y-axis'</span></em>, <em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Current Data'</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Live Scatter'</span></em>, <em class="sig-param"><span class="n">window</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">500</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveScatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveScatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Live Graph Module</p>
+<p>Live Scatter Graph Module</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>func_for_data</strong> (<em>callable</em>) – <p>Function to return x and y data point
-.. rubric:: Example</p>
+<li><p><strong>func_for_data</strong> (<em>callable</em>) – Function to return x and y data point.x is a single value and y can be a
+list of max length 3 or a single value. both of them shouldn’t be None.</p></li>
+<li><p><strong>Example</strong> – <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_new_data</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">10</span><span class="p">,</span><span class="mi">10</span>
+</pre></div>
+</div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_new_data</span><span class="p">():</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">1</span><span class="p">,</span><span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1">## first param for x axis and second can be an array of values</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">10</span><span class="p">,[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func1</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>func_args</strong> (<em>Iterable</em><em>, </em><em>optional</em>) – data function arguments. Defaults to None.</p></li>
+<li><p><strong>interval</strong> (<em>int</em>) – Interval to refresh data in milliseconds.</p></li>
+<li><p><strong>xlabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for x-axis. Defaults to “x-axis”.</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for y-axis. Defaults to “y-axis”.</p></li>
+<li><p><strong>label</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for plot line. Defaults to “Current Data”.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – Title of Scatter chart. Defaults to “Live Scatter”.</p></li>
+<li><p><strong>window</strong> (<em>int</em><em>, </em><em>optional</em>) – Data point window. Defaults to 500.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span> <span class="o">=</span> <span class="n">LiveScatter</span><span class="p">(</span><span class="n">func_for_data</span> <span class="o">=</span> <span class="n">get_new_data</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span> <span class="o">=</span> <span class="n">LiveScatter</span><span class="p">(</span><span class="n">func_for_data</span> <span class="o">=</span> <span class="n">get_new_data</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span> <span class="o">=</span> <span class="n">LiveScatter</span><span class="p">(</span><span class="n">func_for_data</span> <span class="o">=</span> <span class="n">get_new_data</span><span class="p">,</span><span class="n">func_args</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,),</span> <span class="n">interval</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;my test data&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scatter</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="graphpkg.live_graph.LiveScatter.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveScatter.display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveScatter.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>display information</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="graphpkg.live_graph.LiveScatter.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveScatter.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveScatter.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the scatter chart</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="graphpkg.live_graph.LiveTrend">
+<em class="property">class </em><code class="sig-prename descclassname">graphpkg.live_graph.</code><code class="sig-name descname">LiveTrend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">func_for_data</span><span class="p">:</span> <span class="n">callable</span></em>, <em class="sig-param"><span class="n">func_args</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Iterable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xlabel</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'x-axis'</span></em>, <em class="sig-param"><span class="n">ylabel</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'y-axis'</span></em>, <em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Current Data'</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Live Trend'</span></em>, <em class="sig-param"><span class="n">window</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveTrend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveTrend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Live Trend Graph Module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func_for_data</strong> (<em>callable</em>) – Function to return x and y data points.x is a single value and y can be a
+list of max length 3 or a single value.</p></li>
+<li><p><strong>Example</strong> – <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_new_data</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span><span class="mi">10</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_new_data</span><span class="p">():</span>
@@ -192,16 +250,22 @@
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">get_new_data</span><span class="p">():</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">1</span><span class="p">,</span><span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1">## first param for x axis and second can be an array of values</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func1</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </p></li>
-<li><p><strong>interval</strong> (<em>int</em>) – Interval to refresh data</p></li>
-<li><p><strong>xlabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for x-axis. Defaults to None.</p></li>
-<li><p><strong>ylabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for y-axis. Defaults to None.</p></li>
-<li><p><strong>label</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for plot line. Defaults to None.</p></li>
-<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – Title of trend chart. Defaults to None.</p></li>
-<li><p><strong>window</strong> (<em>int</em><em>, </em><em>optional</em>) – data point window. Defaults to None.</p></li>
+<li><p><strong>func_args</strong> (<em>Iterable</em><em>, </em><em>optional</em>) – data function arguments. Defaults to None.</p></li>
+<li><p><strong>interval</strong> (<em>int</em>) – Interval to refresh data in milliseconds.</p></li>
+<li><p><strong>xlabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for x-axis. Defaults to “x-axis”.</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for y-axis. Defaults to “y-axis”.</p></li>
+<li><p><strong>label</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for plot line. Defaults to “Current Data”.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – Title of trend chart. Defaults to “Live Trend”.</p></li>
+<li><p><strong>window</strong> (<em>int</em><em>, </em><em>optional</em>) – Data point window. Defaults to 50.</p></li>
 </ul>
 </dd>
 </dl>
@@ -222,16 +286,15 @@
 </pre></div>
 </div>
 <dl class="py method">
-<dt id="graphpkg.live_graph.LiveTrend.print_configs">
-<code class="sig-name descname">print_configs</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveTrend.print_configs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveTrend.print_configs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print information</p>
-<p>TODO</p>
+<dt id="graphpkg.live_graph.LiveTrend.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveTrend.display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveTrend.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>display information</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="graphpkg.live_graph.LiveTrend.start">
 <code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/graphpkg/live_graph.html#LiveTrend.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live_graph.LiveTrend.start" title="Permalink to this definition">¶</a></dt>
-<dd><p>initiate the trend chart</p>
+<dd><p>Initiate the trend chart</p>
 </dd></dl>
 
 </dd></dl>
