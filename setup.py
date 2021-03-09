@@ -8,7 +8,7 @@ with open("./requirements.txt") as fh:
 
 setup(
     name="graphpkg",
-    version="0.0.2",
+    version="0.0.3",
     description="This is a package for create graphs with help of matplotlib but with some extra facilities like customized live graphs.",
     long_description=long_description,
     long_description_content_type="text/markdown",

@@ -6,7 +6,7 @@
 =======================================================================================================
 """
 
-from typing import Any,Callable, Iterable
+from typing import Any, Callable, Iterable
 import matplotlib.pyplot
 import matplotlib.animation 
 
@@ -32,6 +32,8 @@ class LiveTrend:
             >>>    return datetime.datetime.now(),random.randrange(1, args[0])
 
         func_args (Iterable, optional): data function arguments. Defaults to None.
+        fig (matplotlib.pyplot.figure, optional): [description]. Defaults to None.
+        fig_spec (tuple, optional): [description]. Defaults to (1,1,1).
         interval (int): Interval to refresh data in milliseconds.
         xlabel (str, optional): Label for x-axis. Defaults to "x-axis".
         ylabel (str, optional): Label for y-axis. Defaults to "y-axis".
@@ -58,6 +60,8 @@ class LiveTrend:
         interval: int, 
         func_for_data: callable,
         func_args: Iterable = None,
+        fig: matplotlib.pyplot.figure = None,
+        fig_spec: tuple = (1,2,(1,2)), 
         xlabel: str = "x-axis", 
         ylabel: str = "y-axis", 
         label: str = "Current Data", 
@@ -76,9 +80,10 @@ class LiveTrend:
         self.xs = []
         self._max_line_plots = 3
         self.ys = [[] for i in range(self._max_line_plots)]
-        self.fig = matplotlib.pyplot.figure()
+        self.fig = fig or matplotlib.pyplot.figure()
         self.fig.canvas.set_window_title(self.title)
-        self.ax = self.fig.add_subplot(111)
+        self.ax = self.fig.add_subplot(*fig_spec)
+        self.fig.tight_layout()
         self.ani = None
         self.counter = 0
 
@@ -87,7 +92,7 @@ class LiveTrend:
         """
         self.ax.clear()
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
-        self.ax.plot(self.xs, self.ys[0], label=self.label)
+        self.ax.plot(self.xs, self.ys[0], marker = "o", markersize= 0.75, linewidth = 0.6, label=self.label)
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
         
@@ -101,7 +106,7 @@ class LiveTrend:
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
         for p_i in range(num_of_plots):
             self.ax.plot(
-                self.xs, self.ys[p_i], label=self.label+"-"+str(p_i+1))
+                self.xs, self.ys[p_i], marker = "o", markersize= 0.75,linewidth = 0.6, label=self.label+"-"+str(p_i+1))
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
 
@@ -150,7 +155,6 @@ class LiveTrend:
         else:
             pass
         
-
     def start(self) -> None:
         """Initiate the trend chart
         """
@@ -178,8 +182,6 @@ class LiveTrend:
         
         """)
 
-
-
 class LiveScatter:
     """Live Scatter Graph Module
 
@@ -199,6 +201,8 @@ class LiveScatter:
             >>>    return random.randrange(1, args[0]),random.randrange(1, args[0])
 
         func_args (Iterable, optional): data function arguments. Defaults to None.
+        fig (matplotlib.pyplot.figure, optional): [description]. Defaults to None.
+        fig_spec (tuple, optional): [description]. Defaults to (1,1,1).
         interval (int): Interval to refresh data in milliseconds.
         xlabel (str, optional): Label for x-axis. Defaults to "x-axis".
         ylabel (str, optional): Label for y-axis. Defaults to "y-axis".
@@ -225,6 +229,8 @@ class LiveScatter:
         interval: int, 
         func_for_data: callable,
         func_args: Iterable = None,
+        fig: matplotlib.pyplot.figure = None,
+        fig_spec: tuple = (1, 1, 1),
         xlabel: str = "x-axis", 
         ylabel: str = "y-axis", 
         label: str = "Current Data", 
@@ -243,10 +249,10 @@ class LiveScatter:
         self.xs = []
         self._max_scatter_plots = 3
         self.ys = [[] for i in range(self._max_scatter_plots)]
-        self.fig = matplotlib.pyplot.figure()
+        self.fig = fig or matplotlib.pyplot.figure()
         self.fig.canvas.set_window_title(self.title)
-        self.ax = self.fig.add_subplot(111)
-        
+        self.ax = self.fig.add_subplot(*fig_spec)
+        self.fig.tight_layout()
         self.ani = None
         self.counter = 0
 
@@ -255,7 +261,7 @@ class LiveScatter:
         """
         self.ax.clear()
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
-        self.ax.scatter(self.xs, self.ys[0], label=self.label)
+        self.ax.scatter(self.xs, self.ys[0], s=[10], alpha= 0.6, label=self.label)
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
         
@@ -269,7 +275,7 @@ class LiveScatter:
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
         for p_i in range(num_of_plots):
             self.ax.scatter(
-                self.xs, self.ys[p_i], label=self.label+"-"+str(p_i+1))
+                self.xs, self.ys[p_i], s=[10], alpha= 0.6, label=self.label+"-"+str(p_i+1))
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
 
@@ -336,5 +342,3 @@ class LiveScatter:
         window          : {self.window}
         
         """)
-
-
