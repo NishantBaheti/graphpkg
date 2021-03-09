@@ -3,7 +3,7 @@ import random
 import matplotlib.pyplot as plt
 
 from graphpkg.live_graph import LiveTrend,LiveScatter
-plt.style.use("dark_background")
+# plt.style.use("dark_background")
 
 count1 = 0
 
