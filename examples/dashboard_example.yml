@@ -1,0 +1,21 @@
+dashboard : "Dashboard1"
+plots :
+  trend :
+    - trend1 :
+        func_for_data : func1
+        fig_spec : (3,3,(1,2))
+        label : trend plot label
+    - trend2 :
+        func_for_data : func2
+        fig_spec : (3,3,(4,5))
+        label : trend plot label
+
+  scatter :
+    - scattar1 :
+        func_for_data : func3
+        fig_spec : (3,3,3)
+        label : scatter plot label
+    - scattar2 :
+        func_for_data : func4
+        fig_spec : (3,3,6)
+        label : scatter plot label

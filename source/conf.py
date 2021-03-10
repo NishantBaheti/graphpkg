@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../graphpkg'))
+sys.path.insert(0, os.path.abspath(os.path.join('..','graphpkg')))
 
 
 # -- Project information -----------------------------------------------------
@@ -22,7 +22,7 @@ copyright = '2021, Nishant Baheti'
 author = 'Nishant Baheti'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.3'
+release = '0.0.5'
 
 
 # -- General configuration ---------------------------------------------------
