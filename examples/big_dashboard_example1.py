@@ -3,7 +3,11 @@ import random
 import datetime
 import matplotlib
 from graphpkg.live_graph import LiveDashboard
-# plt.style.use('')
+# matplotlib.pyplot.style.use("seaborn")
+matplotlib.pyplot.rcParams.update({
+    'legend.fontsize': 6,
+    'legend.handlelength': 2
+})
 
 count1 = 0
 cluster = 0.30
@@ -20,6 +24,10 @@ def func2():
 def func3(*args):
     # print(args)
     return random.randrange(1, args[0]), [random.randrange(1, args[0]), random.randrange(1, 100)]
+
+
+def func4():
+    return None, random.randrange(1, 100)
 
 
 if __name__ == "__main__":
@@ -53,36 +61,20 @@ if __name__ == "__main__":
                     "title": "trend plot4"
                 }
             ],
+            "distribution": [{
+                "fig_spec": (4, 3, (3,6)),
+                "func_for_data": func4,
+                "interval": 1000,
+                "title": "distribution plot",
+                "window": 500
+            }],
             "scatter": [
                 {
-                    "fig_spec": (4, 3, 3),
-                    "func_for_data": func3,
-                    "func_args": (1000,),
-                    "interval": 1000,
-                    "title": "other scatter plot",
-                    "window": 500
-                },
-                {
-                    "fig_spec": (4, 3, 6),
-                    "func_for_data": func2,
-                    "interval": 500,
-                    "title": "some scatter plot",
-                    "window": 1000
-                },
-                {
-                    "fig_spec": (4, 3, 9),
+                    "fig_spec": (4, 3, (9,12)),
                     "func_for_data": func3,
                     "func_args": (1000,),
                     "interval": 1000,
                     "title": "other other scatter plot",
-                    "window": 500
-                },
-                {
-                    "fig_spec": (4, 3, 12),
-                    "func_for_data": func3,
-                    "func_args": (1000,),
-                    "interval": 1000,
-                    "title": "other other other scatter plot",
                     "window": 500
                 }
             ]

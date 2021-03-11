@@ -2,6 +2,7 @@
 import random
 import datetime
 import matplotlib
+#matplotlib.use('Agg')
 from graphpkg.live_graph import LiveDashboard
 # plt.style.use('')
 
@@ -17,7 +18,7 @@ def func2():
 
 
 def func3(*args):
-    print(args)
+    #print(args)
     return random.randrange(1, args[0]), [random.randrange(1, args[0]), random.randrange(1, 100)]       
 
 if __name__ == "__main__":
