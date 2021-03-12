@@ -11,6 +11,8 @@ matplotlib.pyplot.rcParams.update({
 
 count1 = 0
 cluster = 0.30
+mu = 60
+sigma = 30
 
 
 def func1():
@@ -27,7 +29,7 @@ def func3(*args):
 
 
 def func4():
-    return None, random.randrange(1, 100)
+    return None, mu + sigma *random.randrange(-100, 100)
 
 
 if __name__ == "__main__":
@@ -64,16 +66,16 @@ if __name__ == "__main__":
             "distribution": [{
                 "fig_spec": (4, 3, (3,6)),
                 "func_for_data": func4,
-                "interval": 1000,
+                "interval": 500,
                 "title": "distribution plot",
-                "window": 500
+                "window": 5000
             }],
             "scatter": [
                 {
                     "fig_spec": (4, 3, (9,12)),
                     "func_for_data": func3,
                     "func_args": (1000,),
-                    "interval": 1000,
+                    "interval": 500,
                     "title": "other other scatter plot",
                     "window": 500
                 }
