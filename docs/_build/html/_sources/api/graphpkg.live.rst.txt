@@ -1,0 +1,29 @@
+graphpkg.live package
+=====================
+
+Submodules
+----------
+
+graphpkg.live.dashboard module
+------------------------------
+
+.. automodule:: graphpkg.live.dashboard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+graphpkg.live.graph module
+--------------------------
+
+.. automodule:: graphpkg.live.graph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: graphpkg.live
+   :members:
+   :undoc-members:
+   :show-inheritance:

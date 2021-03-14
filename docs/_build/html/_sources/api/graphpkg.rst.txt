@@ -1,16 +1,13 @@
 graphpkg package
 ================
 
-Submodules
-----------
+Subpackages
+-----------
 
-graphpkg.live\_graph module
----------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: graphpkg.live_graph
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   graphpkg.live
 
 Module contents
 ---------------
