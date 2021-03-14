@@ -3,7 +3,7 @@ import random
 import datetime
 import matplotlib
 #matplotlib.use('Agg')
-from graphpkg.live_graph import LiveDashboard
+from graphpkg.live.dashboard import LiveDashboard
 # plt.style.use('')
 
 count1 = 0

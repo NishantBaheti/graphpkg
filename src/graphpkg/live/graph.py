@@ -5,11 +5,11 @@ A lot of things need to be added here. Will surely do.
 """
 
 from typing import Any, Callable, Iterable
+from abc import ABC,abstractmethod
 import matplotlib.pyplot
 import matplotlib.animation
 import numpy as np
 from scipy import stats
-
 import logging 
 from graphpkg import __version__
 
@@ -20,7 +20,47 @@ __license__ = "MIT"
 
 _logger = logging.getLogger(__name__)
 
-class LiveTrend:
+
+class Graph(ABC):
+    """Graph Meta Class
+
+    Args:
+        fig (matplotlib.pyplot.figure): Matplotlib figure
+        fig_spec (tuple): figure specification
+        xlabel (str): x-axis label
+        ylabel (str): y-axis label
+        label (str): label
+        title (str): Graph title
+    """
+
+    def __init__(
+        self,
+        fig: matplotlib.pyplot.figure,
+        fig_spec: tuple, 
+        xlabel: str, 
+        ylabel: str , 
+        label: str, 
+        title: str):
+        """Constructor
+        """
+        self.xlabel = str(xlabel)
+        self.ylabel = str(ylabel)
+        self.label = str(label)
+        self.title = str(title)
+        self.fig = fig or matplotlib.pyplot.figure()
+        self.fig.canvas.set_window_title(self.title)
+        self.ax = self.fig.add_subplot(*fig_spec)
+        self.fig.tight_layout()
+
+    @abstractmethod
+    def start(self):
+        pass
+    
+    @abstractmethod
+    def display(self):
+        pass
+
+class LiveTrend(Graph):
     """Live Trend Graph Module
 
     Args:
@@ -42,8 +82,8 @@ class LiveTrend:
             >>>    return datetime.datetime.now(),random.randrange(1, args[0])
 
         func_args (Iterable, optional): data function arguments. Defaults to None.
-        fig (matplotlib.pyplot.figure, optional): [description]. Defaults to None.
-        fig_spec (tuple, optional): [description]. Defaults to (1,1,1).
+        fig (matplotlib.pyplot.figure, optional): .Matplotlib figure. Defaults to None.
+        fig_spec (tuple, optional): [description]. Matplotlib figure specification. Defaults to (1,2,(1,2)).
         interval (int): Interval to refresh data in milliseconds.
         xlabel (str, optional): Label for x-axis. Defaults to "x-axis".
         ylabel (str, optional): Label for y-axis. Defaults to "y-axis".
@@ -79,21 +119,20 @@ class LiveTrend:
         window: int = 50) -> None:
         """[summary]
         """
+        super().__init__(
+            fig = fig,
+            fig_spec = fig_spec, 
+            xlabel = str(xlabel), 
+            ylabel = str(ylabel), 
+            label = str(label), 
+            title = str(title))
         self.func_for_data = func_for_data
         self.func_args = func_args
         self.interval = int(interval)
-        self.xlabel = str(xlabel)
-        self.ylabel = str(ylabel)
-        self.label = str(label)
-        self.title = str(title)
         self.window = int(window)
-        self.xs = []
         self._max_line_plots = 3
+        self.xs = []
         self.ys = [[] for i in range(self._max_line_plots)]
-        self.fig = fig or matplotlib.pyplot.figure()
-        self.fig.canvas.set_window_title(self.title)
-        self.ax = self.fig.add_subplot(*fig_spec)
-        self.fig.tight_layout()
         self.ani = None
         self.counter = 0
 
@@ -192,7 +231,7 @@ class LiveTrend:
         
         """)
 
-class LiveScatter:
+class LiveScatter(Graph):
     """Live Scatter Graph Module
 
     Args:
@@ -211,8 +250,8 @@ class LiveScatter:
             >>>    return random.randrange(1, args[0]),random.randrange(1, args[0])
 
         func_args (Iterable, optional): data function arguments. Defaults to None.
-        fig (matplotlib.pyplot.figure, optional): [description]. Defaults to None.
-        fig_spec (tuple, optional): [description]. Defaults to (1,1,1).
+        fig (matplotlib.pyplot.figure, optional): .Matplotlib figure. Defaults to None.
+        fig_spec (tuple, optional): [description]. Matplotlib figure specification. Defaults to (1,1,1).
         interval (int): Interval to refresh data in milliseconds.
         xlabel (str, optional): Label for x-axis. Defaults to "x-axis".
         ylabel (str, optional): Label for y-axis. Defaults to "y-axis".
@@ -248,21 +287,20 @@ class LiveScatter:
         window: int = 500) -> None:
         """[summary]
         """
+        super().__init__(
+            fig = fig,
+            fig_spec = fig_spec, 
+            xlabel = str(xlabel), 
+            ylabel = str(ylabel), 
+            label = str(label), 
+            title = str(title))
         self.func_for_data = func_for_data
         self.func_args = func_args
         self.interval = int(interval)
-        self.xlabel = str(xlabel)
-        self.ylabel = str(ylabel)
-        self.label = str(label)
-        self.title = str(title)
         self.window = int(window)
-        self.xs = []
         self._max_scatter_plots = 3
+        self.xs = []
         self.ys = [[] for i in range(self._max_scatter_plots)]
-        self.fig = fig or matplotlib.pyplot.figure()
-        self.fig.canvas.set_window_title(self.title)
-        self.ax = self.fig.add_subplot(*fig_spec)
-        self.fig.tight_layout()
         self.ani = None
         self.counter = 0
 
@@ -353,7 +391,7 @@ class LiveScatter:
         
         """)
 
-class LiveDistribution:
+class LiveDistribution(Graph):
     """Live Distribution Graph Module
 
     Args:
@@ -372,8 +410,8 @@ class LiveDistribution:
             >>>    return random.randrange(1, args[0]),random.randrange(1, args[0])
 
         func_args (Iterable, optional): data function arguments. Defaults to None.
-        fig (matplotlib.pyplot.figure, optional): [description]. Defaults to None.
-        fig_spec (tuple, optional): [description]. Defaults to (1,1,1).
+        fig (matplotlib.pyplot.figure, optional): .Matplotlib figure. Defaults to None.
+        fig_spec (tuple, optional): [description]. Matplotlib figure specification. Defaults to (1,1,1).
         interval (int): Interval to refresh data in milliseconds.
         xlabel (str, optional): Label for x-axis. Defaults to "x-axis".
         ylabel (str, optional): Label for y-axis. Defaults to "y-axis".
@@ -399,21 +437,20 @@ class LiveDistribution:
             window: int = 2000) -> None:
         """[summary]
         """
+        super().__init__(
+            fig = fig,
+            fig_spec = fig_spec, 
+            xlabel = str(xlabel), 
+            ylabel = str(ylabel), 
+            label = str(label), 
+            title = str(title))
         self.func_for_data = func_for_data
         self.func_args = func_args
         self.interval = int(interval)
-        self.xlabel = str(xlabel)
-        self.ylabel = str(ylabel)
-        self.label = str(label)
-        self.title = str(title)
         self.window = int(window)
-        self.xs = []
         self._max_plots = 3
+        self.xs = []
         self.ys = [[] for i in range(self._max_plots)]
-        self.fig = fig or matplotlib.pyplot.figure()
-        self.fig.canvas.set_window_title(self.title)
-        self.ax = self.fig.add_subplot(*fig_spec)
-        self.fig.tight_layout()
         self.ani = None
         self.counter = 0
 
@@ -513,185 +550,5 @@ class LiveDistribution:
         label           : {self.label}
         title           : {self.title}  
         window          : {self.window}
-        
-        """)
-
-__plot_class_map__ = {
-    "trend": LiveTrend,
-    "scatter": LiveScatter,
-    "distribution": LiveDistribution
-}
-
-class LiveDashboard:
-    """Live Dashboard plot
-
-    Args:
-        config (dict): Configuration Dictionary
-
-    Notes:
-
-        Dashboard Configration Example
-
-            |    conf = {
-            |        "dashboard": "DASHBOARD1",
-            |        "plots": {
-            |            "trend": [
-            |                {
-            |                    "func_for_data": func1,
-            |                    "fig_spec": (1,3,(1,2)),
-            |                    "interval": 500,
-            |                    "title" : "trend plot1"
-            |                }
-            |            ],
-            |            "scatter": [
-            |                {
-            |                    "fig_spec" : (1, 3, 3),
-            |                    "func_for_data" : func3,
-            |                    "func_args": (1000,),
-            |                    "interval" : 1000,
-            |                    "title" : "other scatter plot",
-            |                    "window": 500
-            |                }
-            |            ]
-            |        }
-            |    }
-
-    Example:
-        >>> conf = {
-        >>>     "dashboard": "DASHBOARD1",
-        >>>     "plots": {
-        >>>         "trend": [
-        >>>             {
-        >>>                 "func_for_data": func1,
-        >>>                 "fig_spec": (4, 3, (1, 2)),
-        >>>                 "interval": 500,
-        >>>                 "title": "trend plot1"
-        >>>             },
-        >>>             {
-        >>>                 "func_for_data": func1,
-        >>>                 "fig_spec": (4, 3, (4, 5)),
-        >>>                 "interval": 500,
-        >>>                 "title": "trend plot2"
-        >>>             },
-        >>>             {
-        >>>                 "func_for_data": func1,
-        >>>                 "fig_spec": (4, 3, (7, 8)),
-        >>>                 "interval": 500,
-        >>>                 "title": "trend plot3"
-        >>>             },
-        >>>             {
-        >>>                 "func_for_data": func1,
-        >>>                 "fig_spec": (4, 3, (10,11)),
-        >>>                 "interval": 500,
-        >>>                 "title": "trend plot4"
-        >>>             }
-        >>>         ],
-        >>>         "distribution": [{
-        >>>             "fig_spec": (4, 3, (3,6)),
-        >>>             "func_for_data": func4,
-        >>>             "interval": 1000,
-        >>>             "title": "distribution plot",
-        >>>             "window": 500
-        >>>         }],
-        >>>         "scatter": [
-        >>>             {
-        >>>                 "fig_spec": (4, 3, (9,12)),
-        >>>                 "func_for_data": func3,
-        >>>                 "func_args": (1000,),
-        >>>                 "interval": 1000,
-        >>>                 "title": "other other scatter plot",
-        >>>                 "window": 500
-        >>>             }
-        >>>         ]
-        >>>     }
-        >>> }
-        >>> dash = LiveDashboard(config=conf)
-        >>> dash.start()
-        >>> matplotlib.pyplot.show()
-
-    """
-
-    def __init__(self, config: dict):
-        """Constructor
-        """
-        self.config = config
-        self._dash_config = []
-        self.fig = matplotlib.pyplot.figure()
-        self.title = None
-
-    def _plot_config(self):
-        """plot config template
-
-        Returns:
-            dict : Configuration template dictionary
-        """
-
-        conf = {
-            "interval": 1000,
-            "func_for_data": None,
-            "func_args": None,
-            "fig": self.fig,
-            "fig_spec": None,
-            "xlabel": "x-axis",
-            "ylabel": "y-axis",
-            "label": "Current Data",
-            "title": "Live Trend",
-            "window": 100
-        }
-        return conf.copy()
-
-    def _load_config_in_format(self):
-        """Load configuratiobn of the dashboard
-
-        Raises:
-            ValueError: any of these : func_for_data, interval, fig_spec, fig are None
-        """
-        self.title = self.config["dashboard"] or "DASHBOARD"
-        plots_in_conf = self.config["plots"].keys()
-        for plot in plots_in_conf:
-            if plot in __plot_class_map__.keys():
-                plot_class = __plot_class_map__[plot]
-                list_of_plots = self.config["plots"][plot]
-
-                for cplot in list_of_plots:
-
-                    templ_conf = self._plot_config()
-
-                    for key in templ_conf:
-                        if key in cplot:
-                            templ_conf[key] = cplot[key]
-
-                    if None in [
-                        templ_conf["func_for_data"],
-                        templ_conf["interval"],
-                        templ_conf["fig_spec"],
-                        templ_conf["fig"]
-                    ]:
-                        raise ValueError(
-                            """ func_for_data, interval, fig_spec, fig can't be None""")
-                    else:
-                        self._dash_config.append(plot_class(**templ_conf))
-
-    def start(self):
-        """Start the dashboard
-        """
-        self._load_config_in_format()
-
-        for plot in self._dash_config:
-            plot.start()
-
-        self.fig.canvas.set_window_title(self.title)
-        self.fig.tight_layout()
-        
-
-    def display(self):
-        """display information
-        """
-        print(f"""
-        =====================================================
-        Configuration Information
-        =====================================================
-
-        title   : {self.title}
         
         """)

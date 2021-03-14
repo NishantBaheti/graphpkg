@@ -2,7 +2,7 @@
 import random
 import datetime
 import matplotlib
-from graphpkg.live_graph import LiveDashboard
+from graphpkg.live.dashboard import LiveDashboard
 # matplotlib.pyplot.style.use("seaborn")
 matplotlib.pyplot.rcParams.update({
     'legend.fontsize': 6,
