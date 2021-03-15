@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>graphpkg.live package &mdash; graphpkg 0.1.0 documentation</title>
+  <title>graphpkg.live package &mdash; graphpkg 1.0.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0
+                1.0.0
               </div>
             
           
@@ -281,6 +281,20 @@
 </pre></div>
 </div>
 <dl class="py method">
+<dt id="graphpkg.live.dashboard.LiveDashboard.dash_config">
+<em class="property">property </em><code class="sig-name descname">dash_config</code><a class="headerlink" href="#graphpkg.live.dashboard.LiveDashboard.dash_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dash board configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of plots in a dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[Dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="graphpkg.live.dashboard.LiveDashboard.display">
 <code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphpkg/live/dashboard.html#LiveDashboard.display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live.dashboard.LiveDashboard.display" title="Permalink to this definition">¶</a></dt>
 <dd><p>display information</p>
@@ -380,6 +394,34 @@ list of max length 3 or a single value. both of them shouldn’t be None.</p></l
 <dd><p>Initiate the scatter chart</p>
 </dd></dl>
 
+<dl class="py method">
+<dt id="graphpkg.live.graph.LiveDistribution.xs">
+<em class="property">property </em><code class="sig-name descname">xs</code><a class="headerlink" href="#graphpkg.live.graph.LiveDistribution.xs" title="Permalink to this definition">¶</a></dt>
+<dd><p>x-axis data list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>x-axis list</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[A]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="graphpkg.live.graph.LiveDistribution.ys">
+<em class="property">property </em><code class="sig-name descname">ys</code><a class="headerlink" href="#graphpkg.live.graph.LiveDistribution.ys" title="Permalink to this definition">¶</a></dt>
+<dd><p>y-axis data list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>y-axis list of lists</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[A]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -444,6 +486,34 @@ list of max length 3 or a single value. both of them shouldn’t be None.</p></l
 <dt id="graphpkg.live.graph.LiveScatter.start">
 <code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.8/library/constants.html#None" title="(in Python v3.8)">None</a><a class="reference internal" href="../_modules/graphpkg/live/graph.html#LiveScatter.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live.graph.LiveScatter.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initiate the scatter chart</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="graphpkg.live.graph.LiveScatter.xs">
+<em class="property">property </em><code class="sig-name descname">xs</code><a class="headerlink" href="#graphpkg.live.graph.LiveScatter.xs" title="Permalink to this definition">¶</a></dt>
+<dd><p>x-axis data list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>x-axis list</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[A]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="graphpkg.live.graph.LiveScatter.ys">
+<em class="property">property </em><code class="sig-name descname">ys</code><a class="headerlink" href="#graphpkg.live.graph.LiveScatter.ys" title="Permalink to this definition">¶</a></dt>
+<dd><p>y-axis data list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>y-axis list of lists</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[A]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -514,6 +584,34 @@ list of max length 3 or a single value.</p></li>
 <dt id="graphpkg.live.graph.LiveTrend.start">
 <code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3.8/library/constants.html#None" title="(in Python v3.8)">None</a><a class="reference internal" href="../_modules/graphpkg/live/graph.html#LiveTrend.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphpkg.live.graph.LiveTrend.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initiate the trend chart</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="graphpkg.live.graph.LiveTrend.xs">
+<em class="property">property </em><code class="sig-name descname">xs</code><a class="headerlink" href="#graphpkg.live.graph.LiveTrend.xs" title="Permalink to this definition">¶</a></dt>
+<dd><p>x-axis data list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>x-axis list</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[A]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="graphpkg.live.graph.LiveTrend.ys">
+<em class="property">property </em><code class="sig-name descname">ys</code><a class="headerlink" href="#graphpkg.live.graph.LiveTrend.ys" title="Permalink to this definition">¶</a></dt>
+<dd><p>y-axis data list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>y-axis list of lists</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[A]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

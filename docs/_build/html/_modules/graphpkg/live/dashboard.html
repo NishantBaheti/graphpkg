@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>graphpkg.live.dashboard &mdash; graphpkg 0.1.0 documentation</title>
+  <title>graphpkg.live.dashboard &mdash; graphpkg 1.0.0 documentation</title>
   
 
   
@@ -57,7 +57,7 @@
             
             
               <div class="version">
-                0.1.0
+                1.0.0
               </div>
             
           
@@ -154,6 +154,7 @@
 <span class="sd">Devloped By : Nishant Baheti</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span><span class="n">Dict</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span>
 <span class="kn">from</span> <span class="nn">graphpkg.live.graph</span> <span class="kn">import</span> <span class="n">LiveTrend</span><span class="p">,</span><span class="n">LiveScatter</span><span class="p">,</span><span class="n">LiveDistribution</span>
 
@@ -268,6 +269,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_dash_config</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dash_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Dash board configuration</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Dict]: list of plots in a dictionary </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dash_config</span>
 
     <span class="k">def</span> <span class="nf">_plot_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;plot config template</span>

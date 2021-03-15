@@ -2,6 +2,7 @@
 Devloped By : Nishant Baheti
 
 """
+from typing import List,Dict
 import matplotlib.pyplot
 from graphpkg.live.graph import LiveTrend,LiveScatter,LiveDistribution
 
@@ -116,6 +117,15 @@ class LiveDashboard:
         self._dash_config = []
         self.fig = matplotlib.pyplot.figure()
         self.title = None
+
+    @property
+    def dash_config(self)-> List[Dict]:
+        """Dash board configuration
+
+        Returns:
+            List[Dict]: list of plots in a dictionary 
+        """
+        return self._dash_config
 
     def _plot_config(self):
         """plot config template

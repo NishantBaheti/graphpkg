@@ -4,7 +4,7 @@ Devloped By : Nishant Baheti
 A lot of things need to be added here. Will surely do.
 """
 
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, List, TypeVar
 from abc import ABC,abstractmethod
 import matplotlib.pyplot
 import matplotlib.animation
@@ -13,13 +13,14 @@ from scipy import stats
 import logging 
 from graphpkg import __version__
 
-
 __author__ = "Nishant Baheti"
 __copyright__ = "Nishant Baheti"
 __license__ = "MIT"
 
 _logger = logging.getLogger(__name__)
 
+T = TypeVar('T')
+A = TypeVar('A',int,float,list)
 
 class Graph(ABC):
     """Graph Meta Class
@@ -131,17 +132,35 @@ class LiveTrend(Graph):
         self.interval = int(interval)
         self.window = int(window)
         self._max_line_plots = 3
-        self.xs = []
-        self.ys = [[] for i in range(self._max_line_plots)]
+        self._xs = []
+        self._ys = [[] for i in range(self._max_line_plots)]
         self.ani = None
         self.counter = 0
+
+    @property
+    def xs(self)-> List[A]:
+        """x-axis data list
+
+        Returns:
+            List[A]: x-axis list
+        """
+        return self._xs
+
+    @property
+    def ys(self)->List[A]:
+        """y-axis data list
+
+        Returns:
+            List[A]: y-axis list of lists
+        """
+        return self._ys
 
     def _plot_single_line(self) -> None:
         """Plot single line in trend chart
         """
         self.ax.clear()
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
-        self.ax.plot(self.xs, self.ys[0], marker = "o", markersize= 0.75, linewidth = 0.6, label=self.label)
+        self.ax.plot(self._xs, self._ys[0], marker = "o", markersize= 0.75, linewidth = 0.6, label=self.label)
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
         
@@ -155,7 +174,7 @@ class LiveTrend(Graph):
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
         for p_i in range(num_of_plots):
             self.ax.plot(
-                self.xs, self.ys[p_i], marker = "o", markersize= 0.75,linewidth = 0.6, label=self.label+"-"+str(p_i+1))
+                self._xs, self._ys[p_i], marker = "o", markersize= 0.75,linewidth = 0.6, label=self.label+"-"+str(p_i+1))
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
 
@@ -174,28 +193,28 @@ class LiveTrend(Graph):
 
         x_data = x_data or self.counter
         plot_chart = True
-        if len(self.xs) > 0:
-            if self.xs[-1] == x_data:
+        if len(self._xs) > 0:
+            if self._xs[-1] == x_data:
                 plot_chart = False
 
         if plot_chart:
             if isinstance(y_data, float) or isinstance(y_data, int) or isinstance(y_data, str):
-                self.xs.append(x_data)
-                self.ys[0].append(y_data)
-                self.xs = self.xs[-self.window:]
-                self.ys = self.ys[-self.window:]
+                self._xs.append(x_data)
+                self._ys[0].append(y_data)
+                self._xs = self._xs[-self.window:]
+                self._ys = self._ys[-self.window:]
                 self._plot_single_line()
 
             elif isinstance(y_data,list):
                 
-                self.xs.append(x_data)
-                self.xs = self.xs[-self.window:]
+                self._xs.append(x_data)
+                self._xs = self._xs[-self.window:]
 
                 num_of_plots = self._max_line_plots if len(
                     y_data) > self._max_line_plots else len(y_data)
                 for i in range(num_of_plots):
-                    self.ys[i].append(y_data[i])
-                    self.ys[i] = self.ys[i][-self.window:]
+                    self._ys[i].append(y_data[i])
+                    self._ys[i] = self._ys[i][-self.window:]
                 
                 self._plot_multi_line(num_of_plots)            
 
@@ -299,17 +318,35 @@ class LiveScatter(Graph):
         self.interval = int(interval)
         self.window = int(window)
         self._max_scatter_plots = 3
-        self.xs = []
-        self.ys = [[] for i in range(self._max_scatter_plots)]
+        self._xs = []
+        self._ys = [[] for i in range(self._max_scatter_plots)]
         self.ani = None
         self.counter = 0
+
+    @property
+    def xs(self)-> List[A]:
+        """x-axis data list
+
+        Returns:
+            List[A]: x-axis list
+        """
+        return self._xs
+
+    @property
+    def ys(self)->List[A]:
+        """y-axis data list
+
+        Returns:
+            List[A]: y-axis list of lists
+        """
+        return self._ys
 
     def _plot_single_scatter(self) -> None:
         """Plot single scatter chart
         """
         self.ax.clear()
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
-        self.ax.scatter(self.xs, self.ys[0], s=[10], alpha= 0.6, label=self.label)
+        self.ax.scatter(self._xs, self._ys[0], s=[10], alpha= 0.6, label=self.label)
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
         
@@ -323,7 +360,7 @@ class LiveScatter(Graph):
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
         for p_i in range(num_of_plots):
             self.ax.scatter(
-                self.xs, self.ys[p_i], s=[10], alpha= 0.6, label=self.label+"-"+str(p_i+1))
+                self._xs, self._ys[p_i], s=[10], alpha= 0.6, label=self.label+"-"+str(p_i+1))
         self.ax.grid(color='grey', linewidth=0.3, visible=True)
         self.ax.legend(loc="upper left")
 
@@ -342,22 +379,22 @@ class LiveScatter(Graph):
 
         if None not in [x_data,y_data]:
             if isinstance(y_data, float) or isinstance(y_data, int) or isinstance(y_data, str):
-                self.xs.append(x_data)
-                self.ys[0].append(y_data)
-                self.xs = self.xs[-self.window:]
-                self.ys = self.ys[-self.window:]
+                self._xs.append(x_data)
+                self._ys[0].append(y_data)
+                self._xs = self._xs[-self.window:]
+                self._ys = self._ys[-self.window:]
                 self._plot_single_scatter()
 
             elif isinstance(y_data,list):
                 
-                self.xs.append(x_data)
-                self.xs = self.xs[-self.window:]
+                self._xs.append(x_data)
+                self._xs = self._xs[-self.window:]
 
                 num_of_plots = self._max_scatter_plots if len(
                     y_data) > self._max_scatter_plots else len(y_data)
                 for i in range(num_of_plots):
-                    self.ys[i].append(y_data[i])
-                    self.ys[i] = self.ys[i][-self.window:]
+                    self._ys[i].append(y_data[i])
+                    self._ys[i] = self._ys[i][-self.window:]
                 
                 self._plot_multi_scatter(num_of_plots)            
 
@@ -449,18 +486,36 @@ class LiveDistribution(Graph):
         self.interval = int(interval)
         self.window = int(window)
         self._max_plots = 3
-        self.xs = []
-        self.ys = [[] for i in range(self._max_plots)]
+        self._xs = []
+        self._ys = [[] for i in range(self._max_plots)]
         self.ani = None
         self.counter = 0
 
+    @property
+    def xs(self)-> List[A]:
+        """x-axis data list
+
+        Returns:
+            List[A]: x-axis list
+        """
+        return self._xs
+
+    @property
+    def ys(self)->List[A]:
+        """y-axis data list
+
+        Returns:
+            List[A]: y-axis list of lists
+        """
+        return self._ys
+        
     def _plot_single(self) -> None:
         """Plot single distribution chart
         """
         self.ax.clear()
         self.ax.set(title=self.title, xlabel=self.xlabel, ylabel=self.ylabel)
         
-        x = np.array(self.ys[0])
+        x = np.array(self._ys[0])
         if x.shape[0] > 1:
             kernel = stats.gaussian_kde(x)
             count, bins, ignored = self.ax.hist(
@@ -480,7 +535,7 @@ class LiveDistribution(Graph):
                     ylabel=self.ylabel)
         
         for p_i in range(num_of_plots):
-            x = np.array(self.ys[p_i])
+            x = np.array(self._ys[p_i])
             if x.shape[0] > 1:
                 kernel = stats.gaussian_kde(x)
                 count, bins, ignored = self.ax.hist(
@@ -504,22 +559,22 @@ class LiveDistribution(Graph):
 
         if y_data is not None:
             if isinstance(y_data, float) or isinstance(y_data, int):
-                self.xs.append(x_data)
-                self.ys[0].append(y_data)
-                self.xs = self.xs[-self.window:]
-                self.ys = self.ys[-self.window:]
+                self._xs.append(x_data)
+                self._ys[0].append(y_data)
+                self._xs = self._xs[-self.window:]
+                self._ys = self._ys[-self.window:]
                 self._plot_single()
 
             elif isinstance(y_data, list):
 
-                self.xs.append(x_data)
-                self.xs = self.xs[-self.window:]
+                self._xs.append(x_data)
+                self._xs = self._xs[-self.window:]
 
                 num_of_plots = self._max_plots if len(
                     y_data) > self._max_plots else len(y_data)
                 for i in range(num_of_plots):
-                    self.ys[i].append(y_data[i])
-                    self.ys[i] = self.ys[i][-self.window:]
+                    self._ys[i].append(y_data[i])
+                    self._ys[i] = self._ys[i][-self.window:]
 
                 self._plot_multi(num_of_plots)
 
