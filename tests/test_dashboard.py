@@ -48,8 +48,9 @@ def test_dashboard_all_graphs():
     dash = LiveDashboard(config=conf)
     dash.start()
 
-    plt.plot()
+    plt.show()
 
-    assert dash.dash_config != []
+
+    assert dash._dash_config != []
 
 test_dashboard_all_graphs()
