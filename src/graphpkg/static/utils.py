@@ -1,12 +1,30 @@
+"""
+plotting utility
+
+author : Nishant Baheti<nishantbaheti.it19@gmail.com>
+"""
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from scipy import stats
 
-def plot_distribution(x: np.ndarray,figsize: tuple=None, kde: bool=True, hist: bool=True, rug: bool=True):
-            
-    x = np.array(x) if isinstance(x,(list, tuple)) else x
+def plot_distribution(x: np.ndarray,figsize: tuple=None, kde: bool=True, hist: bool=True, rug: bool=True) -> None:
+    """
+    Plot distribution with additional informations.
 
+    distribution and box plot from matplotlib and seaborn.
+
+    Args:
+        x (np.ndarray): input 1D array.
+        figsize (tuple, optional): figure size from matplotlib. Defaults to None.
+        kde (bool, optional): kde parameter from seaborn. Defaults to True.
+        hist (bool, optional): hist paramter from seaborn. Defaults to True.
+        rug (bool, optional): rug parameter from seaborn. Defaults to True.
+    
+    Raises:
+        AssertionError : only 1d arrays are allowed for input.
+    """    
+    x = np.array(x) if isinstance(x,(list, tuple)) else x
     assert len(x.shape) == 1, "only 1d arrays are allowed."
 
     min_value = x.min()
