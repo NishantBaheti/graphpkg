@@ -7,8 +7,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from scipy import stats
+from typing import Union
 
-def plot_distribution(x: np.ndarray,figsize: tuple=None, kde: bool=True, hist: bool=True, rug: bool=True) -> None:
+def plot_distribution(x: np.ndarray, observe_data: Union[list, np.ndarray] = None, figsize: tuple=None, kde: bool=True, hist: bool=True, rug: bool=True) -> None:
     """
     Plot distribution with additional informations.
 
@@ -52,7 +53,7 @@ def plot_distribution(x: np.ndarray,figsize: tuple=None, kde: bool=True, hist: b
     ax[0].axvline(x=median_value, color = 'red', lw = 2, label='median')
     ax[0].axvline(x=max_value, color = 'gray', lw = 2, label='max')
 
-    sns.distplot(x,kde=kde,hist=hist,ax=ax[1],rug=rug, label='distribution')
+    sns.histplot(x, kde=kde, label='distribution', ax=ax[1], element='step')
     ax[1].axvline(x=min_value, color = 'blue', lw = 2, label='min')
     ax[1].axvline(x=mean_value, color = 'k', lw = 2, label='mean')
     ax[1].axvline(x=median_value, color = 'red', lw = 2, label='median')
@@ -63,6 +64,10 @@ def plot_distribution(x: np.ndarray,figsize: tuple=None, kde: bool=True, hist: b
     ax[1].axvline(x=mean_value + (2 * std_value), color='gray', ls='--')
     ax[1].axvline(x=mean_value - (2 * std_value), color='gray', ls='--')
 
+    if observe_data is not None:
+        for obs_data in observe_data:
+            ax[1].axvline(x=obs_data, color='k', alpha=0.4, lw=3)
+            ax[1].axvline(x=obs_data, color='k', lw=1, label=obs_data)
 
     plt.tight_layout()
     plt.legend(loc='upper right')
@@ -72,4 +77,4 @@ def plot_distribution(x: np.ndarray,figsize: tuple=None, kde: bool=True, hist: b
 if __name__ == "__main__":
     x = np.random.normal(size=(200,))
 
-    plot_distribution(x)
+    plot_distribution(x,observe_data=[0.6])
