@@ -9,7 +9,7 @@ import seaborn as sns
 from scipy import stats
 from typing import Union
 
-def plot_distribution(x: np.ndarray, observe_data: Union[list, np.ndarray] = None, figsize: tuple=None, kde: bool=True, hist: bool=True, rug: bool=True) -> None:
+def plot_distribution(x: np.ndarray, indicate_data: Union[list, np.ndarray] = None, figsize: tuple=None, kde: bool=True) -> None:
     """
     Plot distribution with additional informations.
 
@@ -17,11 +17,10 @@ def plot_distribution(x: np.ndarray, observe_data: Union[list, np.ndarray] = Non
 
     Args:
         x (np.ndarray): input 1D array.
+        indicate_data (Union[list, np.ndarray]) : data points to observe/indicate in plot. Defaults to None.
         figsize (tuple, optional): figure size from matplotlib. Defaults to None.
         kde (bool, optional): kde parameter from seaborn. Defaults to True.
-        hist (bool, optional): hist paramter from seaborn. Defaults to True.
-        rug (bool, optional): rug parameter from seaborn. Defaults to True.
-    
+
     Raises:
         AssertionError : only 1d arrays are allowed for input.
     """    
@@ -64,10 +63,10 @@ def plot_distribution(x: np.ndarray, observe_data: Union[list, np.ndarray] = Non
     ax[1].axvline(x=mean_value + (2 * std_value), color='gray', ls='--')
     ax[1].axvline(x=mean_value - (2 * std_value), color='gray', ls='--')
 
-    if observe_data is not None:
-        for obs_data in observe_data:
-            ax[1].axvline(x=obs_data, color='k', alpha=0.4, lw=3)
-            ax[1].axvline(x=obs_data, color='k', lw=1, label=obs_data)
+    if indicate_data is not None:
+        for ind_data in indicate_data:
+            ax[1].axvline(x=ind_data, color='k', alpha=0.4, lw=3)
+            ax[1].axvline(x=ind_data, color='k', lw=1, label=f"indicating {ind_data}")
 
     plt.tight_layout()
     plt.legend(loc='upper right')
@@ -77,4 +76,4 @@ def plot_distribution(x: np.ndarray, observe_data: Union[list, np.ndarray] = Non
 if __name__ == "__main__":
     x = np.random.normal(size=(200,))
 
-    plot_distribution(x,observe_data=[0.6])
+    plot_distribution(x,indicate_data=[0.6])
