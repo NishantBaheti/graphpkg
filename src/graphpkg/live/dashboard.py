@@ -4,7 +4,7 @@ Devloped By : Nishant Baheti
 """
 from typing import List,Dict
 import matplotlib.pyplot
-from graphpkg.live.graph import LiveTrend,LiveScatter,LiveDistribution
+from graphpkg.live import LiveTrend,LiveScatter,LiveDistribution
 
 import logging 
 from graphpkg import __version__
@@ -188,7 +188,7 @@ class LiveDashboard:
         for plot in self._dash_config:
             plot.start()
 
-        self.fig.canvas.set_window_title(self.title)
+        self.fig.canvas.manager.set_window_title(self.title)
         self.fig.tight_layout()
         
 

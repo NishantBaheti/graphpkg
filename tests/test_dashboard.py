@@ -1,4 +1,4 @@
-from graphpkg.live.dashboard import LiveDashboard
+from graphpkg.live import LiveDashboard
 import random
 import matplotlib.pyplot as plt
 

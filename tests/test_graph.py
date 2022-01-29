@@ -1,4 +1,4 @@
-from graphpkg.live.graph import LiveTrend,LiveScatter,LiveDistribution
+from graphpkg.live import LiveTrend,LiveScatter,LiveDistribution
 import random
 import matplotlib.pyplot as plt
 

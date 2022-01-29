@@ -2,7 +2,7 @@ import random
 import datetime
 
 ## Importing the module
-from graphpkg.live.graph import LiveTrend,LiveScatter
+from graphpkg.live import LiveScatter
 
 import matplotlib.pyplot as plt
 

@@ -49,7 +49,7 @@ class Graph(ABC):
         self.label = str(label)
         self.title = str(title)
         self.fig = fig or matplotlib.pyplot.figure()
-        self.fig.canvas.set_window_title(self.title)
+        self.fig.canvas.manager.set_window_title(self.title)
         self.ax = self.fig.add_subplot(*fig_spec)
         self.fig.tight_layout()
 

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 import random
 import datetime
-from graphpkg.live.graph import LiveTrend,LiveScatter
+from graphpkg.live import LiveTrend,LiveScatter
 
 style.use("dark_background")
 

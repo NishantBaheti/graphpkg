@@ -1,5 +1,5 @@
 import numpy as np
-from graphpkg.static.utils import plot_distribution
+from graphpkg.static import plot_distribution
 
 x = np.random.normal(size=(200,))
 

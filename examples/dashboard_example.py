@@ -2,7 +2,7 @@ import datetime
 import random
 import matplotlib.pyplot as plt
 
-from graphpkg.live.graph import LiveTrend,LiveScatter
+from graphpkg.live import LiveTrend,LiveScatter
 # plt.style.use('')
 
 count1 = 0

@@ -2,7 +2,7 @@ import random
 import datetime
 
 ## Importing the module
-from graphpkg.live.graph import LiveDistribution
+from graphpkg.live import LiveDistribution
 
 import matplotlib.pyplot as plt
 

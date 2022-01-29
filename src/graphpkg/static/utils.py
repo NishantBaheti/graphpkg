@@ -29,6 +29,10 @@ def plot_distribution(x: np.ndarray, indicate_data: Union[list, np.ndarray] = No
 
     Raises:
         AssertionError : only 1d arrays are allowed for input.
+
+    Examples:
+        >>> x = np.random.normal(size=(200,))
+        >>> plot_distribution(x, indicate_data=[0.6])
     """
     x = np.array(x) if isinstance(x, (list, tuple)) else x
     assert len(x.shape) == 1, "only 1d arrays are allowed."
@@ -95,6 +99,15 @@ def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_
 
     Raises:
         ValueError: If the input data's shape is not (k,3), k=number of rows.
+
+    Examples:
+        >>> from sklearn.linear_model import LogisticRegression
+        >>> from sklearn.datasets import make_classification
+        >>> X, y = make_classification(n_samples=500, n_features=2, random_state=25,
+        >>>                             n_informative=1, n_classes=2, n_clusters_per_class=1,
+        >>>                             n_repeated=0, n_redundant=0)
+        >>> model = LogisticRegression().fit(X, y)
+        >>> plot_classfication_boundary(func=model.predict, data=np.hstack((X,y.reshape(-1,1))),bound_details=100)
     """
     if data is not None:
         if not (len(data.shape) == 2 and data.shape[1] == 3):
@@ -133,7 +146,8 @@ def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_
 
 def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool = True,
                     class_col: str = None, legend: bool = True, legend_loc: str = 'best',
-                    figsize: tuple = None, palette: str = 'dark', grid_flag: bool = True) -> None:
+                    figsize: tuple = None, palette: str = 'dark', grid_flag: bool = True,
+                    xticks_rotation: int = 45) -> None:
     """
     Mulitple Distribution Plots using pandas dataframe.
 
@@ -153,6 +167,14 @@ def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool
         figsize (tuple, optional): figure size, similar to matplotlib.pyplot. Defaults to None.
         palette (str, optional): color palette, property from seaborn. Defaults to 'dark'.
         grid_flag (bool, optional): put grid or not. Defaults to True.
+        xticks_rotation (int, optional): xticks rotation angle. Defaults to 45.
+
+    Examples:
+        >>> from sklearn.datasets import fetch_california_housing
+        >>> dataset = fetch_california_housing()
+        >>> df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
+        >>> df['target'] = dataset.target 
+        >>> multi_distplots(df, class_col='target', n_cols=2)
     """
     columns = df.columns
     n_labels = len(columns)
@@ -168,7 +190,8 @@ def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool
     for idx, name in enumerate(columns):
         sns.histplot(data=df, x=name, hue=class_col, bins=bins, label=name, ax=_ax[idx],
                      legend=legend, palette=palette, kde=kde)
-
+        if str(df[name].dtype) == 'object':
+            _ax[idx].set_xticklabels(_ax[idx].get_xticklabels(), rotation=xticks_rotation)
         _ax[idx].grid(grid_flag)
 
     if legend:
@@ -194,9 +217,9 @@ if __name__ == "__main__":
     # plot_classfication_boundary(func=model.predict, \
     #     data=np.hstack((X,y.reshape(-1,1))),bound_details=100)
 
-    # from sklearn.datasets import load_iris
+    # from sklearn.datasets import fetch_california_housing
 
-    # dataset = load_iris()
+    # dataset = fetch_california_housing()
 
     # df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
     # df['target'] = dataset.target
