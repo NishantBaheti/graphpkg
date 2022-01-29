@@ -147,7 +147,7 @@ def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_
 def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool = True,
                     class_col: str = None, legend: bool = True, legend_loc: str = 'best',
                     figsize: tuple = None, palette: str = 'dark', grid_flag: bool = True,
-                    xticks_rotation: int = 45) -> None:
+                    xticks_rotation: int = 60) -> None:
     """
     Mulitple Distribution Plots using pandas dataframe.
 
@@ -167,7 +167,7 @@ def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool
         figsize (tuple, optional): figure size, similar to matplotlib.pyplot. Defaults to None.
         palette (str, optional): color palette, property from seaborn. Defaults to 'dark'.
         grid_flag (bool, optional): put grid or not. Defaults to True.
-        xticks_rotation (int, optional): xticks rotation angle. Defaults to 45.
+        xticks_rotation (int, optional): xticks rotation angle. Defaults to 60.
 
     Examples:
         >>> from sklearn.datasets import fetch_california_housing
@@ -191,7 +191,7 @@ def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool
         sns.histplot(data=df, x=name, hue=class_col, bins=bins, label=name, ax=_ax[idx],
                      legend=legend, palette=palette, kde=kde)
         if str(df[name].dtype) == 'object':
-            _ax[idx].set_xticklabels(_ax[idx].get_xticklabels(), rotation=xticks_rotation)
+            _ax[idx].tick_params(labelrotation=xticks_rotation)
         _ax[idx].grid(grid_flag)
 
     if legend:
