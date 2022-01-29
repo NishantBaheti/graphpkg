@@ -217,13 +217,13 @@ if __name__ == "__main__":
     # plot_classfication_boundary(func=model.predict, \
     #     data=np.hstack((X,y.reshape(-1,1))),bound_details=100)
 
-    from sklearn.datasets import fetch_california_housing
+    # from sklearn.datasets import fetch_california_housing
 
-    dataset = fetch_california_housing()
+    # dataset = fetch_california_housing()
 
-    df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
-    df['target'] = dataset.target
+    # df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
+    # df['target'] = dataset.target
 
-    multi_distplots(df, n_cols=2)
+    # multi_distplots(df, n_cols=2)
 
     pass
