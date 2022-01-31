@@ -4,7 +4,7 @@ plotting utility
 author : Nishant Baheti<nishantbaheti.it19@gmail.com>
 """
 
-from typing import Union
+from typing import Callable, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -31,8 +31,11 @@ def plot_distribution(x: np.ndarray, indicate_data: Union[list, np.ndarray] = No
         AssertionError : only 1d arrays are allowed for input.
 
     Examples:
+        >>> import numpy as np
+        >>> import matplotlib.pyplot as plt
         >>> x = np.random.normal(size=(200,))
         >>> plot_distribution(x, indicate_data=[0.6])
+        >>> plt.show()
     """
     x = np.array(x) if isinstance(x, (list, tuple)) else x
     assert len(x.shape) == 1, "only 1d arrays are allowed."
@@ -80,14 +83,60 @@ def plot_distribution(x: np.ndarray, indicate_data: Union[list, np.ndarray] = No
 
     plt.tight_layout()
     plt.legend(loc='upper right')
-    plt.show()
 
 
-def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_plot_cols: int = 1,
-                                figsize: tuple = (5, 5), bound_details: int = 50) -> None:
+def adjust_multiplots(n_plots: int, n_cols: int, figsize: Union[tuple, None]):
+    """
+    Adjust multiple plots in matplotplot subplots.
+
+    Args:
+        n_plots (int): Number of plots.
+        n_cols (int): Number of columns.
+        figsize (Union[tuple, None]): figsize.
+
+    Returns:
+        matplolib figure, matplotlib subplot axes.
+
+    Examples:
+        >>> fig, ax = adjust_multiplots(n_plots=9, n_cols=3, figsize=(15,15))
+    """
+    n_cols = min(n_cols, n_plots)
+    n_rows = int(np.ceil(n_plots / n_cols))
+
+    _fig, _ax = plt.subplots(ncols=n_cols, nrows=n_rows,
+                             figsize=figsize or (n_cols*3, n_rows*3))
+
+    if isinstance(_ax, (np.ndarray)):
+        _ax = _ax.reshape((n_rows * n_cols))
+    else:
+        _ax = np.array([_ax])
+    return _fig, _ax
+
+
+def create_canvas(size: int, pts_details: int) -> np.ndarray:
+    """
+    Create a 2 Dimensional canvas.
+
+    Args:
+        size (int): size/params of canvas.
+        pts_details (int): detailed number of points.
+
+    Returns:
+        np.ndarray: numpy array for canvas points.
+
+    Examples:
+        >>> all_points = create_canvas(size=4, pts_details=100)
+    """
+    loc_points = np.linspace(-size, size, pts_details)
+    all_points = np.array(np.meshgrid(loc_points, loc_points)).T.reshape(-1, 2)
+    return all_points
+
+
+def plot_classfication_boundary(func: Callable, data: np.ndarray = None, size: int = 4, n_plot_cols: int = 1,
+                                figsize: tuple = (5, 5), canvas_details: int = 50, canvas_opacity: float = 0.8,
+                                canvas_palette: str = 'viridis') -> None:
     """
     Plot classification model's decision boundary.
-
     Args:
         func (function): Prediction function of ML model that.
         data (np.ndarray, optional): source data. restricted to 2 features and 1 target,
@@ -95,7 +144,9 @@ def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_
         size (int, optional): size of canvas. Defaults to 4.
         n_plot_cols (int, optional): number of columns for number of plots. Defaults to 1.
         figsize (tuple, optional): matplotlib figure size. Defaults to (5, 5).
-        bound_details (int, optional): how detailed the boundary should be. Defaults to 50.
+        canvas_details (int, optional): how detailed the boundary should be. Defaults to 50.
+        canvas_opacity (float, optional): Canvas transparency parameter. Defaults to 0.8.
+        canvas_palette (str, optional): palette of canvas. Defaults to 'viridis'.
 
     Raises:
         ValueError: If the input data's shape is not (k,3), k=number of rows.
@@ -103,19 +154,20 @@ def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_
     Examples:
         >>> from sklearn.linear_model import LogisticRegression
         >>> from sklearn.datasets import make_classification
+        >>> import matplotlib.pyplot as plt
         >>> X, y = make_classification(n_samples=500, n_features=2, random_state=25,
         >>>                             n_informative=1, n_classes=2, n_clusters_per_class=1,
         >>>                             n_repeated=0, n_redundant=0)
         >>> model = LogisticRegression().fit(X, y)
-        >>> plot_classfication_boundary(func=model.predict, data=np.hstack((X,y.reshape(-1,1))),bound_details=100)
+        >>> plot_classfication_boundary(func=model.predict, data=np.hstack((X,y.reshape(-1,1))),canvas_details=100)
+        >>> plt.show()
     """
     if data is not None:
         if not (len(data.shape) == 2 and data.shape[1] == 3):
             raise ValueError(
                 "Only shape (k,3) data is allowed. For flat plotting purposes")
 
-    loc_points = np.linspace(-size, size, bound_details)
-    all_points = np.array(np.meshgrid(loc_points, loc_points)).T.reshape(-1, 2)
+    all_points = create_canvas(size=size, pts_details=canvas_details)
 
     probs = func(all_points)
     probs = probs if len(probs.shape) >= 2 else probs.reshape(-1, 1)
@@ -130,7 +182,8 @@ def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_
     plotted = 0
     for ax_ele in grid:  # type: ignore
         sns.scatterplot(x=all_points[..., 0], y=all_points[..., 1],
-                        hue=probs[..., plotted], palette='viridis', ax=ax_ele)
+                        hue=probs[..., plotted], palette=canvas_palette, ax=ax_ele,
+                        alpha=canvas_opacity)
 
         if data is not None:
             sns.scatterplot(x=data[..., -3], y=data[..., -2],
@@ -141,7 +194,84 @@ def plot_classfication_boundary(func, data: np.ndarray = None, size: int = 4, n_
 
     plt.legend(bbox_to_anchor=(1.2, 1), loc='upper right')
     plt.tight_layout()
-    plt.show()
+
+
+def grid_classfication_boundary(models_list: list, data: np.ndarray = None,
+                                size: int = 4, n_plot_cols: int = 3, figsize: tuple = (5, 5),
+                                canvas_details: int = 50, canvas_opacity: float = 0.8, canvas_palette='viridis') -> None:
+    """
+    Plot multiple plots of clasification boundaries for mulitple ml models.
+
+    Only models are allowed with 1D prediction.
+
+    Args:
+        models_list (list): Models list of dictionary.
+        data (np.ndarray, optional): source data. restricted to 2 features and 1 target,
+                                        in total 3 columns. Defaults to None.
+        size (int, optional): Size of canvas. Defaults to 4.
+        n_plot_cols (int, optional): number of plot columns. Defaults to 3.
+        figsize (tuple, optional): figure size. Defaults to (5, 5).
+        canvas_details (int, optional): detailing in canvas. Defaults to 50.
+        canvas_opacity (float, optional): Canvas transparency parameter. Defaults to 0.8.
+
+    Raises:
+        ValueError: Only 3 dimensional data, 2 features, 1 target is allowed.
+
+    Examples:
+        >>> from sklearn.linear_model import LogisticRegression
+        >>> from sklearn.tree import DecisionTreeClassifier
+        >>> from sklearn.datasets import make_classification
+        >>> import matplotlib.pyplot as plt
+        >>> X, y = make_classification(n_samples=500, n_features=2, random_state=25,
+        >>>                             n_informative=1, n_classes=2, n_clusters_per_class=1,
+        >>>                             n_repeated=0, n_redundant=0)
+        >>> lr_model = LogisticRegression().fit(X, y)
+        >>> dt_model = DecisionTreeClassifier().fit(X, y)
+        >>> models_list = [{
+        >>>     "name": "Logistic Regression Classifier",
+        >>>     "function": lr_model.predict
+        >>> },{
+        >>>     "name": "Decision Tree Classifier",
+        >>>     "function": dt_model.predict
+        >>> }]
+        >>> grid_classfication_boundary(models_list=models_list, data=np.hstack((X, y.reshape(-1, 1))), 
+        >>>                             figsize=(7,5), canvas_details=100)
+        >>> plt.show()
+    """
+
+    if data is not None:
+        if not (len(data.shape) == 2 and data.shape[1] == 3):
+            raise ValueError(
+                "Only shape (k,3) data is allowed. For flat plotting purposes")
+
+    all_points = create_canvas(size=size, pts_details=canvas_details)
+    n_plots = len(models_list)
+
+    _, _ax = adjust_multiplots(n_plots=n_plots, n_cols=n_plot_cols, figsize=figsize)
+
+    for i_plot in range(n_plots):
+
+        try:
+            func = models_list[i_plot]["function"]
+            probs = func(all_points)
+
+            assert len(probs.shape) == 1
+        except AssertionError:
+            print(f"{i_plot} number's model's output is not 1D")
+        finally:
+            probs = probs if len(probs.shape) >= 2 else probs.reshape(-1, 1)
+            sns.scatterplot(x=all_points[..., 0], y=all_points[..., 1],
+                            hue=probs[..., 0], palette=canvas_palette, ax=_ax[i_plot],
+                            alpha=canvas_opacity)
+
+            if data is not None:
+                sns.scatterplot(x=data[..., -3], y=data[..., -2],
+                                hue=data[..., -1], palette='dark', ax=_ax[i_plot], legend=False)
+
+            _ax[i_plot].legend(bbox_to_anchor=(1.2, 1), loc='upper right')
+            _ax[i_plot].set_title(models_list[i_plot]["name"])
+
+    plt.tight_layout()
 
 
 def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool = True,
@@ -171,22 +301,18 @@ def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool
 
     Examples:
         >>> from sklearn.datasets import fetch_california_housing
+        >>> import pandas as pd
+        >>> import numpy as np
         >>> dataset = fetch_california_housing()
         >>> df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
         >>> df['target'] = dataset.target 
         >>> multi_distplots(df, n_cols=2)
+        >>> plt.show()
     """
     columns = df.columns
     n_labels = len(columns)
-    n_cols = min(n_cols, n_labels)
-    n_rows = int(np.ceil(n_labels / n_cols))
+    _, _ax = adjust_multiplots(n_plots=n_labels, n_cols=n_cols, figsize=figsize)
 
-    _, _ax = plt.subplots(ncols=n_cols, nrows=n_rows, figsize=figsize or (n_cols*3, n_rows*2))
-
-    if isinstance(_ax, (np.ndarray)):
-        _ax = _ax.reshape((n_rows * n_cols))
-    else:
-        _ax = np.array([_ax])
     for idx, name in enumerate(columns):
         sns.histplot(data=df, x=name, hue=class_col, bins=bins, label=name, ax=_ax[idx],
                      legend=legend, palette=palette, kde=kde)
@@ -197,13 +323,13 @@ def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool
     if legend:
         plt.legend(loc=legend_loc)
     plt.tight_layout()
-    plt.show()
 
 
 if __name__ == "__main__":
     # x = np.random.normal(size=(200,))
 
     # plot_distribution(x, indicate_data=[0.6])
+    # plt.show()
 
     # from sklearn.linear_model import LogisticRegression
     # from sklearn.datasets import make_classification
@@ -215,7 +341,31 @@ if __name__ == "__main__":
     # model = LogisticRegression().fit(X, y)
 
     # plot_classfication_boundary(func=model.predict, \
-    #     data=np.hstack((X,y.reshape(-1,1))),bound_details=100)
+    #     data=np.hstack((X,y.reshape(-1,1))),canvas_details=100)
+    # plt.show()
+
+    # from sklearn.linear_model import LogisticRegression
+    # from sklearn.tree import DecisionTreeClassifier
+    # from sklearn.datasets import make_classification
+
+    # X, y = make_classification(n_samples=500, n_features=2, random_state=25,
+    #                             n_informative=1, n_classes=2, n_clusters_per_class=1,
+    #                             n_repeated=0, n_redundant=0)
+
+    # lr_model = LogisticRegression().fit(X, y)
+    # dt_model = DecisionTreeClassifier().fit(X, y)
+
+    # models_list = [{
+    #     "name": "Logistic Regression Classifier",
+    #     "function": lr_model.predict
+    # },{
+    #     "name": "Decision Tree Classifier",
+    #     "function": dt_model.predict
+    # }]
+
+    # grid_classfication_boundary(models_list=models_list, data=np.hstack((X, y.reshape(-1, 1))),
+    #                             figsize=(7,5), canvas_details=100)
+    # plt.show()
 
     # from sklearn.datasets import fetch_california_housing
 
@@ -225,5 +375,6 @@ if __name__ == "__main__":
     # df['target'] = dataset.target
 
     # multi_distplots(df, n_cols=2)
+    # plt.show()
 
     pass
