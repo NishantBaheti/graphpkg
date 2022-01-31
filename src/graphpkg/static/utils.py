@@ -305,7 +305,7 @@ def multi_distplots(df: pd.DataFrame, n_cols: int = 4, bins: int = 20, kde: bool
         >>> import numpy as np
         >>> dataset = fetch_california_housing()
         >>> df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
-        >>> df['target'] = dataset.target 
+        >>> df['target'] = dataset.target
         >>> multi_distplots(df, n_cols=2)
         >>> plt.show()
     """
