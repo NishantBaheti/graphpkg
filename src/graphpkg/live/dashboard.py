@@ -27,32 +27,6 @@ class LiveDashboard:
     Args:
         config (dict): Configuration Dictionary
 
-    Dashboard Configration Example
-    
-    |   conf = {
-    |       "dashboard": "DASHBOARD1",
-    |       "plots": {
-    |           "trend": [
-    |               {
-    |                   "func_for_data": func1,
-    |                   "fig_spec": (1,3,(1,2)),
-    |                   "interval": 500,
-    |                   "title" : "trend plot1"
-    |               }
-    |           ],
-    |           "scatter": [
-    |               {
-    |                   "fig_spec" : (1, 3, 3),
-    |                   "func_for_data" : func3,
-    |                   "func_args": (1000,),
-    |                   "interval" : 1000,
-    |                   "title" : "other scatter plot",
-    |                   "window": 500
-    |               }
-    |           ]
-    |       }
-    |   }
-
     Example:
         >>> conf = {
         >>>     "dashboard": "DASHBOARD1",
