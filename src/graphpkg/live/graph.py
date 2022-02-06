@@ -457,7 +457,11 @@ class LiveDistribution(Graph):
         window (int, optional): Data point window. Defaults to 500.
 
     Examples:
-        >>> x
+        >>> def func1():
+                return None, random.randrange(1,100)
+        >>> g1 = LiveDistribution(func_for_data=func1,interval=1000,title="plot 1 for range 1-100")
+        >>> g1.start()
+        >>> plt.show()
     """
 
     def __init__(
