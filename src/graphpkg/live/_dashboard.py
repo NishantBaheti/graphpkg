@@ -4,9 +4,7 @@ Devloped By : Nishant Baheti
 """
 from typing import List,Dict
 import matplotlib.pyplot
-from graphpkg.live import LiveTrend,LiveScatter,LiveDistribution
-
-import logging 
+from graphpkg.live import LiveTrend, LiveScatter, LiveDistribution
 from graphpkg import __version__
 
 
@@ -14,7 +12,6 @@ __author__ = "Nishant Baheti"
 __copyright__ = "Nishant Baheti"
 __license__ = "MIT"
 
-_logger = logging.getLogger(__name__)
 __plot_class_map__ = {
     "trend": LiveTrend,
     "scatter": LiveScatter,

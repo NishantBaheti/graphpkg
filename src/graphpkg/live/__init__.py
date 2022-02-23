@@ -1,11 +1,16 @@
-"""
-direct import approach
-"""
-from .graph import (
+from ._graph import (
     LiveScatter,
     LiveDistribution,
     LiveTrend
 )
-from .dashboard import (
+from ._dashboard import (
     LiveDashboard
 )
+
+
+__all__ = [
+    "LiveScatter",
+    "LiveDistribution",
+    "LiveTrend",
+    "LiveDashboard"
+]

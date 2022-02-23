@@ -132,15 +132,16 @@ def create_canvas(size: int, pts_details: int) -> np.ndarray:
     return all_points
 
 
-def plot_classfication_boundary(func: Callable, data: np.ndarray = None, size: int = 4, n_plot_cols: int = 1,
+def plot_classification_boundary(func: Callable, data: np.ndarray = None, size: int = 4, n_plot_cols: int = 1,
                                 figsize: tuple = (5, 5), canvas_details: int = 50, canvas_opacity: float = 0.8,
                                 canvas_palette: str = 'viridis') -> None:
     """
     Plot classification model's decision boundary.
+
     Args:
         func (function): Prediction function of ML model that.
-        data (np.ndarray, optional): source data. restricted to 2 features and 1 target,
-                                        in total 3 columns. Defaults to None.
+        data (np.ndarray, optional): source data. restricted to 2 features and 1 target, \
+            in total 3 columns. Defaults to None.
         size (int, optional): size of canvas. Defaults to 4.
         n_plot_cols (int, optional): number of columns for number of plots. Defaults to 1.
         figsize (tuple, optional): matplotlib figure size. Defaults to (5, 5).
@@ -159,7 +160,7 @@ def plot_classfication_boundary(func: Callable, data: np.ndarray = None, size: i
         >>>                             n_informative=1, n_classes=2, n_clusters_per_class=1,
         >>>                             n_repeated=0, n_redundant=0)
         >>> model = LogisticRegression().fit(X, y)
-        >>> plot_classfication_boundary(func=model.predict, data=np.hstack((X,y.reshape(-1,1))),canvas_details=100)
+        >>> plot_classification_boundary(func=model.predict, data=np.hstack((X,y.reshape(-1,1))),canvas_details=100)
         >>> plt.show()
     """
     if data is not None:
@@ -196,7 +197,7 @@ def plot_classfication_boundary(func: Callable, data: np.ndarray = None, size: i
     plt.tight_layout()
 
 
-def grid_classfication_boundary(models_list: list, data: np.ndarray = None,
+def grid_classification_boundary(models_list: list, data: np.ndarray = None,
                                 size: int = 4, n_plot_cols: int = 3, figsize: tuple = (5, 5),
                                 canvas_details: int = 50, canvas_opacity: float = 0.8, canvas_palette='viridis') -> None:
     """
@@ -234,7 +235,7 @@ def grid_classfication_boundary(models_list: list, data: np.ndarray = None,
         >>>     "name": "Decision Tree Classifier",
         >>>     "function": dt_model.predict
         >>> }]
-        >>> grid_classfication_boundary(models_list=models_list, data=np.hstack((X, y.reshape(-1, 1))), 
+        >>> grid_classification_boundary(models_list=models_list, data=np.hstack((X, y.reshape(-1, 1))), 
         >>>                             figsize=(7,5), canvas_details=100)
         >>> plt.show()
     """
@@ -340,7 +341,7 @@ if __name__ == "__main__":
 
     # model = LogisticRegression().fit(X, y)
 
-    # plot_classfication_boundary(func=model.predict, \
+    # plot_classification_boundary(func=model.predict, \
     #     data=np.hstack((X,y.reshape(-1,1))),canvas_details=100)
     # plt.show()
 
@@ -363,7 +364,7 @@ if __name__ == "__main__":
     #     "function": dt_model.predict
     # }]
 
-    # grid_classfication_boundary(models_list=models_list, data=np.hstack((X, y.reshape(-1, 1))),
+    # grid_classification_boundary(models_list=models_list, data=np.hstack((X, y.reshape(-1, 1))),
     #                             figsize=(7,5), canvas_details=100)
     # plt.show()
 

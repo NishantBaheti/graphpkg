@@ -1,15 +1,19 @@
-"""
-
-direct import approach
-"""
-
-from .general import (
+from ._general import (
     plot_distribution,
-    plot_classfication_boundary,
-    grid_classfication_boundary,
+    plot_classification_boundary,
+    grid_classification_boundary,
     multi_distplots
 )
 
-from .ts import (
+from ._ts import (
     plot_boxed_timeseries
 )
+
+
+__all__ = [
+    "plot_distribution",
+    "plot_classification_boundary",
+    "grid_classification_boundary",
+    "multi_distplots",
+    "plot_boxed_timeseries"
+]
