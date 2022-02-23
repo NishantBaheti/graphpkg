@@ -123,11 +123,11 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
 # default_role = None
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
-# add_function_parentheses = True
+add_function_parentheses = True
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
-# add_module_names = True
+add_module_names = True
 
 # If true, sectionauthor and moduleauthor directives will be shown in the
 # output. They are ignored by default.
@@ -140,7 +140,7 @@ pygments_style = "sphinx"
 # modindex_common_prefix = []
 
 # If true, keep warnings as "system message" paragraphs in the built documents.
-# keep_warnings = False
+keep_warnings = False
 
 
 # -- Options for HTML output -------------------------------------------------
