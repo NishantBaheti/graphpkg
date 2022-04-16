@@ -4,7 +4,7 @@ plotting utility
 author : Nishant Baheti<nishantbaheti.it19@gmail.com>
 """
 
-from typing import Callable, Union
+from typing import Callable, Union, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,19 +13,19 @@ from scipy import stats
 import seaborn as sns
 
 
-def plot_distribution(x: np.ndarray, indicate_data: Union[list, np.ndarray] = None,
-                      figsize: tuple = None, kde: bool = True) -> None:
+def plot_distribution(x: np.ndarray, kde: Optional[bool] = True, indicate_data: Optional[Union[list, np.ndarray]] = None,
+                      figsize: Optional[tuple] = None) -> None:
     """
     Plot distribution with additional informations.
 
-    distribution and box plot from matplotlib and seaborn.
+    distribution and box plot from matplotlib and seaborn.  
 
     Args:
         x (np.ndarray): input 1D array.
-        indicate_data (Union[list, np.ndarray]) : data points to observe/indicate in plot.
-                                                    Defaults to None.
-        figsize (tuple, optional): figure size from matplotlib. Defaults to None.
-        kde (bool, optional): kde parameter from seaborn. Defaults to True.
+        kde (Optional[bool], optional): kde parameter from seaborn. Defaults to True.
+        indicate_data (Optional[Union[list, np.ndarray]], optional): data points to observe/indicate in plot.
+                                                                        Defaults to None.
+        figsize (Optional[tuple], optional): figure size from matplotlib. Defaults to None.
 
     Raises:
         AssertionError : only 1d arrays are allowed for input.
@@ -33,10 +33,12 @@ def plot_distribution(x: np.ndarray, indicate_data: Union[list, np.ndarray] = No
     Examples:
         >>> import numpy as np
         >>> import matplotlib.pyplot as plt
+        >>> from graphpkg.static import plot_distribution
         >>> x = np.random.normal(size=(200,))
         >>> plot_distribution(x, indicate_data=[0.6])
         >>> plt.show()
-    """
+    """    
+    
     x = np.array(x) if isinstance(x, (list, tuple)) else x
     assert len(x.shape) == 1, "only 1d arrays are allowed."
 
