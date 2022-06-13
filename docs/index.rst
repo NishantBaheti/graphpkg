@@ -15,7 +15,7 @@ Contents
    :maxdepth: 2
 
    Overview <readme>
-   Module Reference <api/modules>
+   Module <api/graphpkg>
    License <license>
    Authors <authors>
    Changelog <changelog>
