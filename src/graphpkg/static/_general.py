@@ -216,7 +216,7 @@ def plot_classification_boundary(func: Callable, data: np.ndarray = None, size: 
         if plotted == n_plots:
             break
 
-    fig.legend(bbox_to_anchor=(1.2, 1), loc='upper right')
+    # fig.legend(bbox_to_anchor=(1.2, 1), loc='upper right')
     fig.tight_layout()
     return fig, _ax
 
@@ -298,7 +298,7 @@ def grid_classification_boundary(models_list: list, data: np.ndarray = None,
                 sns.scatterplot(x=data[..., -3], y=data[..., -2],
                                 hue=data[..., -1], palette='dark', ax=_ax[i_plot], legend=False)
 
-            _ax[i_plot].legend(bbox_to_anchor=(1.2, 1), loc='upper right')
+            # _ax[i_plot].legend(bbox_to_anchor=(1.2, 1), loc='upper right')
             _ax[i_plot].set_title(models_list[i_plot]["name"])
 
     plt.tight_layout()
