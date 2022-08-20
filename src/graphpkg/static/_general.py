@@ -115,6 +115,24 @@ def adjust_multiplots(n_plots: int, n_cols: int, figsize: Union[tuple, None]):
     return _fig, _ax
 
 
+def create_mesh(size: int, pts_details: int) -> list:
+    """
+    Create a mesh grid.
+
+    Args:
+        size (int): size/params of canvas.
+        pts_details (int): detailed number of points.
+
+    Returns:
+        list: list of mesh variables. Generally referred to xx and yy.
+
+    Examples:
+        >>> xx, yy = create_mesh(size=4, pts_details=100)
+    """
+    loc_points = np.linspace(-size, size, pts_details)
+    return np.meshgrid(loc_points, loc_points)
+
+
 def create_canvas(size: int, pts_details: int) -> np.ndarray:
     """
     Create a 2 Dimensional canvas.
@@ -129,14 +147,13 @@ def create_canvas(size: int, pts_details: int) -> np.ndarray:
     Examples:
         >>> all_points = create_canvas(size=4, pts_details=100)
     """
-    loc_points = np.linspace(-size, size, pts_details)
-    all_points = np.array(np.meshgrid(loc_points, loc_points)).T.reshape(-1, 2)
+    all_points = np.array(create_mesh(size, pts_details)).T.reshape(-1, 2)
     return all_points
 
 
 def plot_classification_boundary(func: Callable, data: np.ndarray = None, size: int = 4, n_plot_cols: int = 1,
-                                figsize: tuple = (5, 5), canvas_details: int = 50, canvas_opacity: float = 0.8,
-                                canvas_palette: str = 'viridis') -> None:
+                                figsize: tuple = (5, 5), canvas_details: int = 50, canvas_opacity: float = 0.5,
+                                canvas_palette: str = 'coolwarm'):
     """
     Plot classification model's decision boundary.
 
@@ -148,8 +165,8 @@ def plot_classification_boundary(func: Callable, data: np.ndarray = None, size: 
         n_plot_cols (int, optional): number of columns for number of plots. Defaults to 1.
         figsize (tuple, optional): matplotlib figure size. Defaults to (5, 5).
         canvas_details (int, optional): how detailed the boundary should be. Defaults to 50.
-        canvas_opacity (float, optional): Canvas transparency parameter. Defaults to 0.8.
-        canvas_palette (str, optional): palette of canvas. Defaults to 'viridis'.
+        canvas_opacity (float, optional): Canvas transparency parameter. Defaults to 0.3.
+        canvas_palette (str, optional): palette of canvas. Defaults to 'coolwarm'.
 
     Raises:
         ValueError: If the input data's shape is not (k,3), k=number of rows.
@@ -170,7 +187,9 @@ def plot_classification_boundary(func: Callable, data: np.ndarray = None, size: 
             raise ValueError(
                 "Only shape (k,3) data is allowed. For flat plotting purposes")
 
-    all_points = create_canvas(size=size, pts_details=canvas_details)
+    xx, yy = create_mesh(size=size, pts_details=canvas_details)
+
+    all_points = np.c_[xx.ravel(), yy.ravel()]
 
     probs = func(all_points)
     probs = probs if len(probs.shape) >= 2 else probs.reshape(-1, 1)
@@ -178,15 +197,17 @@ def plot_classification_boundary(func: Callable, data: np.ndarray = None, size: 
     n_plots = probs.shape[1]
     n_plot_rows = int(np.ceil(n_plots / n_plot_cols))
 
-    _, _ax = plt.subplots(nrows=n_plot_rows, ncols=n_plot_cols, figsize=figsize)
+    fig, _ax = plt.subplots(nrows=n_plot_rows, ncols=n_plot_cols, figsize=figsize)
     _ax = _ax if isinstance(_ax, np.ndarray) else np.array([_ax])
     grid = _ax if len(_ax.shape) == 1 else _ax.reshape(n_plot_rows*n_plot_cols,)
 
     plotted = 0
     for ax_ele in grid:  # type: ignore
-        sns.scatterplot(x=all_points[..., 0], y=all_points[..., 1],
-                        hue=probs[..., plotted], palette=canvas_palette, ax=ax_ele,
-                        alpha=canvas_opacity)
+        # sns.scatterplot(x=all_points[..., 0], y=all_points[..., 1],
+        #                 hue=probs[..., plotted], palette=canvas_palette, ax=ax_ele,
+        #                 alpha=canvas_opacity)
+        zz = probs[:,plotted].reshape(xx.shape)
+        ax_ele.contourf(xx, yy, zz, cmap=canvas_palette, alpha=canvas_opacity)
 
         if data is not None:
             sns.scatterplot(x=data[..., -3], y=data[..., -2],
@@ -195,13 +216,14 @@ def plot_classification_boundary(func: Callable, data: np.ndarray = None, size: 
         if plotted == n_plots:
             break
 
-    plt.legend(bbox_to_anchor=(1.2, 1), loc='upper right')
-    plt.tight_layout()
+    fig.legend(bbox_to_anchor=(1.2, 1), loc='upper right')
+    fig.tight_layout()
+    return fig, _ax
 
 
 def grid_classification_boundary(models_list: list, data: np.ndarray = None,
                                 size: int = 4, n_plot_cols: int = 3, figsize: tuple = (5, 5),
-                                canvas_details: int = 50, canvas_opacity: float = 0.8, canvas_palette='viridis') -> None:
+                                canvas_details: int = 50, canvas_opacity: float = 0.4, canvas_palette='coolwarm') -> None:
     """
     Plot multiple plots of clasification boundaries for mulitple ml models.
 
@@ -215,7 +237,8 @@ def grid_classification_boundary(models_list: list, data: np.ndarray = None,
         n_plot_cols (int, optional): number of plot columns. Defaults to 3.
         figsize (tuple, optional): figure size. Defaults to (5, 5).
         canvas_details (int, optional): detailing in canvas. Defaults to 50.
-        canvas_opacity (float, optional): Canvas transparency parameter. Defaults to 0.8.
+        canvas_opacity (float, optional): Canvas transparency parameter. Defaults to 0.4.
+        canvas_palette (str, optional): palette from matplotlib. Defaults to coolwarm.
 
     Raises:
         ValueError: Only 3 dimensional data, 2 features, 1 target is allowed.
@@ -247,7 +270,8 @@ def grid_classification_boundary(models_list: list, data: np.ndarray = None,
             raise ValueError(
                 "Only shape (k,3) data is allowed. For flat plotting purposes")
 
-    all_points = create_canvas(size=size, pts_details=canvas_details)
+    xx, yy = create_mesh(size=size, pts_details=canvas_details)
+    all_points = np.c_[xx.ravel(), yy.ravel()]
     n_plots = len(models_list)
 
     _, _ax = adjust_multiplots(n_plots=n_plots, n_cols=n_plot_cols, figsize=figsize)
@@ -263,9 +287,12 @@ def grid_classification_boundary(models_list: list, data: np.ndarray = None,
             print(f"{i_plot} number's model's output is not 1D")
         finally:
             probs = probs if len(probs.shape) >= 2 else probs.reshape(-1, 1)
-            sns.scatterplot(x=all_points[..., 0], y=all_points[..., 1],
-                            hue=probs[..., 0], palette=canvas_palette, ax=_ax[i_plot],
-                            alpha=canvas_opacity)
+            # sns.scatterplot(x=all_points[..., 0], y=all_points[..., 1],
+            #                 hue=probs[..., 0], palette=canvas_palette, ax=_ax[i_plot],
+            #                 alpha=canvas_opacity)
+
+            zz = probs[:, 0].reshape(xx.shape)
+            _ax[i_plot].contourf(xx, yy, zz, cmap=canvas_palette, alpha=canvas_opacity)
 
             if data is not None:
                 sns.scatterplot(x=data[..., -3], y=data[..., -2],
@@ -338,13 +365,17 @@ if __name__ == "__main__":
     # from sklearn.datasets import make_classification
 
     # X, y = make_classification(n_samples=500, n_features=2, random_state=25,
-    #                             n_informative=1, n_classes=2, n_clusters_per_class=1,
+    #                             n_informative=2, n_classes=3, n_clusters_per_class=1,
     #                             n_repeated=0, n_redundant=0)
 
     # model = LogisticRegression().fit(X, y)
 
-    # plot_classification_boundary(func=model.predict, \
+    # fig, ax = plot_classification_boundary(func=model.predict, \
     #     data=np.hstack((X,y.reshape(-1,1))),canvas_details=100)
+    # plt.show()
+
+    # fig, ax = plot_classification_boundary(func=model.predict_proba,
+    #                                        data=np.hstack((X, y.reshape(-1, 1))), canvas_details=100)
     # plt.show()
 
     # from sklearn.linear_model import LogisticRegression
